@@ -1,0 +1,3 @@
+<bot-token-id>
+<ddragon-filepath>
+<riot-api-key>
