@@ -5,47 +5,9 @@ import json
 import random
 import token_file # local file to store secrets
 
-bot = commands.Bot(command_prefix='-', description='Rule Book\'s '
-    + 'playground bot')
+api_key = token_file.api_key
+discord_bot_token_id = token_file.discord_bot_token_id
 
-@bot.command(name='abbamembers', aliases=['abbamember'],
-    help='List of Abba members')
-async def _abbamember(ctx):
-    members = "'Agnetha Fältskog', 'Anni-Frid \"Frida\" Lyngstad',"
-        + "'Björn Ulvaeus', 'Benny Andersson'"
-    teal = discord.Colour.dark_teal()
-    embed = discord.Embed(title='Members List', colour=teal,
-        description=members)
-    embed.set_footer(text='These are the four main members of *Abba*')
-
-    print(embed.to_dict())
-    await ctx.send(embed=embed)
-
-@bot.command(name='abba', help='Random top 10 Abba song')
-async def _abba(ctx):
-    array = ['https://www.youtube.com/watch?v=xFrGuyw1V8s',
-    'https://www.youtube.com/watch?v=unfzfe8f9NI',
-    'https://www.youtube.com/watch?v=XEjLoHdbVeE',
-    'https://www.youtube.com/watch?v=p4QqMKe3rwY',
-    'https://www.youtube.com/watch?v=-crgQGdpZR0',
-    'https://www.youtube.com/watch?v=92cwKCU8Z5c',
-    'https://www.youtube.com/watch?v=cvChjHcABPA',
-    'https://www.youtube.com/watch?v=iUrzicaiRLU',
-    'https://www.youtube.com/watch?v=iUrzicaiRLU',
-    'https://youtu.be/WkL7Fkigfn8',
-    'https://youtu.be/dQsjAbZDx-4',
-    'https://youtu.be/za05HBtGsgU',
-    'https://www.youtube.com/watch?v=BshxCIjNEjY',
-    'https://youtu.be/iJ90ZqH0PWI',
-    'https://www.youtube.com/watch?v=2seCB54Bv-c',
-    'https://www.youtube.com/watch?v=ETxmCCsMoD0',
-    'https://www.youtube.com/watch?v=IIKAe8Wi0S0',
-    'https://www.youtube.com/watch?v=dDI7x1nwTUw',
-    'https://youtu.be/tW3HN_pvbE4',
-    'https://youtu.be/mhr6tUE32YA']
-    n = random.randint(0,10)
-    print(n)
-    await ctx.send('Abba\'s biggest hits #' + str(n) + ': ' + array[n])
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -77,7 +39,7 @@ class MyClient(discord.Client):
             gamename = summoner_name.split('#')[0]
             tagline = summoner_name.split('#')[1]
             dragontail_filepath = 'C:/workspace/gitHome/Takoyaki' # 'C:/workspace/gitHome/Takoyaki'
-            API_KEY = '/?api_key=' + token_file.api_key # riot games api key
+            API_KEY = '/?api_key=' + api_key # riot games api key
             BASE_RIOTAPI_CALL = 'https://{region_v5}.api.riotgames.com'
             # SUMMONER_V4_QUERY = '/lol/summoner/v4/summoners/by-name/{name}' + API_KEY
             ACCOUNT_V1_QUERY = '/riot/account/v1/accounts/by-riot-id/{gamename}/{tagline}' + API_KEY
@@ -208,8 +170,6 @@ def markdown_url(description, url):
     description = '[' + description + ']'
     hyperlink = '(' + url + ')'
     return description + hyperlink
-
-bot.run(discord_bot_token_id) # discord bot token id
 
 intents = discord.Intents.default()
 intents.message_content = True
